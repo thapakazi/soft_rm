@@ -1,0 +1,14 @@
+** soft_rm
+rm -rf but with softly  #sotlyforcing
+
+- It all started here: 
+
+  [[https://raw.githubusercontent.com/zerOnepal/soft_rm/master/soft_rm_1st_tweet.png]]
+
+- then it got public discussion
+
+[[https://raw.githubusercontent.com/zerOnepal/soft_rm/master/soft_rm_begins.png]]
+
+and 
+
+[[https://raw.githubusercontent.com/zerOnepal/soft_rm/master/soft_rm_begins.png]]
