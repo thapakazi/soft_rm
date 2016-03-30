@@ -11,4 +11,4 @@ rm -rf but with softly  #sotlyforcing
 
 and 
 
-[[https://raw.githubusercontent.com/zerOnepal/soft_rm/master/soft_rm_begins.png]]
+[[https://raw.githubusercontent.com/zerOnepal/soft_rm/master/soft_rm_into.png]]
