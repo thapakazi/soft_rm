@@ -1,4 +1,4 @@
-** soft_rm
+** soft_rm :co
 rm -rf but with softly  #sotlyforcing
 
 - It all started here: 
@@ -12,3 +12,46 @@ rm -rf but with softly  #sotlyforcing
 and 
 
 [[https://raw.githubusercontent.com/zerOnepal/soft_rm/master/soft_rm_into.png]]
+
+** how it works:
+   1. getting file path
+      #+BEGIN_SRC bash
+        rm -rf myfiles/*
+      #+END_SRC
+   2. tag the files and expiry date
+      #+BEGIN_SRC bash
+# setting necessary tag attributes
+set_attribs(){
+    expires_on=$(date +%d_%m_%Y -d "+$EXPIRE_ON")
+    deleted_from="$(echo $1|awk -F/ 'BEGIN{OFS="/"}{$NF="";print$0}')"
+
+    export SAVEDIR=$TMPDIR/"$(echo $1|awk -F/ '{print$NF}')" #(mktemp -td my_blob.XXXXXXXXXX) #lets have some randomness
+    mkdir -p $SAVEDIR
+    #lets put some attr to the file/folder
+    setfattr -n user.expires_on \
+             -v $expires_on $SAVEDIR \
+        || { echo; echo 'mount / -o remount,user_xattr
+                  if you see Operation not permitted error
+                  also donot use /tmp spits out crazy issue, trust me'; exit; }
+    setfattr -n user.deleted_from \
+             -v $deleted_from $SAVEDIR \
+        || { echo; echo 'bailing out setting attrs about deleted_path
+                         flie/folder being removed seems fishy'; exit; }
+
+    move_and_fake_rm-rf "$1"
+    print_thrash_home_contents "$SAVEDIR"
+}
+      #+END_SRC
+   3. move file/folder to MOTHER_OF_RECYCLE_BIN_FOLDER
+      #+BEGIN_SRC bash
+        mv myfiles/* $MOTHER_OF_RECYCLE_BIN_FOLDER
+      #+END_SRC
+
+
+** left:
+   a cronie to take care of this:
+   #+BEGIN_EXAMPLE
+   # file: /mytemp/soft_rm/01_04_2016/soft_rm_into.png
+   user.deleted_from="tests/"
+   user.expires_on="21_04_201
+   #+END_EXAMPLE
